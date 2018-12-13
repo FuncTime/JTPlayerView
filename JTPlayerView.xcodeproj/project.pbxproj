@@ -134,19 +134,19 @@
 		771A38B021C1ECF200C87239 /* JTPlayerView */ = {
 			isa = PBXGroup;
 			children = (
-				771A38B121C1ECF200C87239 /* CustomSliderView.h */,
-				771A38B221C1ECF200C87239 /* JTPlayer.h */,
-				771A38B321C1ECF200C87239 /* JTPlayerBottomView.xib */,
 				771A38B421C1ECF200C87239 /* JTPlayerView.h */,
-				771A38B521C1ECF200C87239 /* UIView+Extension.h */,
+				771A38BB21C1ECF200C87239 /* JTPlayerView.m */,
+				771A38B221C1ECF200C87239 /* JTPlayer.h */,
+				771A38B821C1ECF200C87239 /* JTPlayer.m */,
+				771A38BA21C1ECF200C87239 /* AVPlayerLayerView.h */,
 				771A38B621C1ECF200C87239 /* AVPlayerLayerView.m */,
 				771A38B721C1ECF200C87239 /* JTPlayerBottomView.h */,
-				771A38B821C1ECF200C87239 /* JTPlayer.m */,
-				771A38B921C1ECF200C87239 /* CustomSliderView.m */,
-				771A38BA21C1ECF200C87239 /* AVPlayerLayerView.h */,
-				771A38BB21C1ECF200C87239 /* JTPlayerView.m */,
-				771A38BC21C1ECF200C87239 /* UIView+Extension.m */,
 				771A38BD21C1ECF200C87239 /* JTPlayerBottomView.m */,
+				771A38B321C1ECF200C87239 /* JTPlayerBottomView.xib */,
+				771A38B921C1ECF200C87239 /* CustomSliderView.m */,
+				771A38B121C1ECF200C87239 /* CustomSliderView.h */,
+				771A38B521C1ECF200C87239 /* UIView+Extension.h */,
+				771A38BC21C1ECF200C87239 /* UIView+Extension.m */,
 			);
 			path = JTPlayerView;
 			sourceTree = "<group>";
