@@ -17,16 +17,20 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NzT-CY-eEi">
-                    <rect key="frame" x="10" y="18" width="31" height="30"/>
+                    <rect key="frame" x="10" y="18" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="LwU-Ed-461"/>
+                        <constraint firstAttribute="height" constant="30" id="kxI-5j-cdN"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" title="播放"/>
-                    <state key="selected" title="暂停"/>
+                    <state key="normal" image="play.png"/>
+                    <state key="selected" image="pause.png"/>
                     <connections>
                         <action selector="playButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="DfR-gY-A0h"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k1F-L8-VRp">
-                    <rect key="frame" x="49" y="26" width="34" height="14.5"/>
+                    <rect key="frame" x="48" y="26" width="34" height="14.5"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="34" id="G1t-wi-xHe"/>
                     </constraints>
@@ -35,14 +39,14 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j8X-et-0L2">
-                    <rect key="frame" x="91" y="32.5" width="300" height="2"/>
+                    <rect key="frame" x="90" y="32.5" width="302" height="2"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="2" id="Jp0-tM-UvU"/>
                     </constraints>
                     <color key="progressTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </progressView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="233-Qk-8pq">
-                    <rect key="frame" x="399" y="26" width="34" height="14.5"/>
+                    <rect key="frame" x="400" y="26" width="34" height="14.5"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="34" id="tLa-Ud-cCa"/>
                     </constraints>
@@ -51,10 +55,14 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2iI-s9-NKJ">
-                    <rect key="frame" x="441" y="18" width="31" height="30"/>
+                    <rect key="frame" x="442" y="18" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="M96-XA-bCj"/>
+                        <constraint firstAttribute="width" constant="30" id="jw1-zW-vfJ"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <state key="normal" title="全屏"/>
-                    <state key="selected" title="小屏"/>
+                    <state key="normal" image="fullScreen.png"/>
+                    <state key="selected" title="小屏" image="noFullScrreen.png"/>
                     <connections>
                         <action selector="fullScreenButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="8bn-rO-PVJ"/>
                     </connections>
@@ -79,10 +87,17 @@
             <connections>
                 <outlet property="currentTimeLabel" destination="k1F-L8-VRp" id="eNB-bG-sxc"/>
                 <outlet property="durationLabel" destination="233-Qk-8pq" id="cYG-Fs-H8k"/>
+                <outlet property="fullScreenButton" destination="2iI-s9-NKJ" id="W7i-GJ-ltv"/>
                 <outlet property="playButton" destination="NzT-CY-eEi" id="eWJ-3e-xpj"/>
                 <outlet property="progressView" destination="j8X-et-0L2" id="G1X-vb-GFy"/>
             </connections>
             <point key="canvasLocation" x="87" y="-230"/>
         </view>
     </objects>
+    <resources>
+        <image name="fullScreen.png" width="64" height="64"/>
+        <image name="noFullScrreen.png" width="64" height="64"/>
+        <image name="pause.png" width="64" height="64"/>
+        <image name="play.png" width="64" height="64"/>
+    </resources>
 </document>

@@ -10,16 +10,25 @@
 #import <AVFoundation/AVFoundation.h>
 #import "JTPlayer.h"
 #import "JTPlayerBottomView.h"
+#import "JTPlayerTopView.h"
+#import "UIView+Extension.h"
 
 @interface JTPlayerView ()
 
 @property (nonatomic, strong) JTPlayerBottomView *bottomView;
 
+@property (nonatomic, strong) JTPlayerTopView *topView;
+
 @property (nonatomic, strong) JTPlayer *player;
 //是否在拖动点,用来防止小圆点随时间跳动
 @property (nonatomic, assign) BOOL isPanPoint;
 
+@property (nonatomic, strong) UIView *controlBgView;
+
 @end
+
+//自动隐藏时间
+#define HiddenLimit 5.0
 
 @implementation JTPlayerView
 
@@ -31,7 +40,9 @@
 - (instancetype)initWithPlayerURL:(NSURL *)URL {
     self = [super init];
     if (self) {
-        [self createViews];
+        [self createPlayerView];
+        [self defaultSetting];
+        [self addHiddenGesture];
         self.URL = URL;
     }
     return self;
@@ -41,20 +52,47 @@
 {
     self = [super init];
     if (self) {
-        [self createViews];
+        [self createPlayerView];
+        [self defaultSetting];
+        [self addHiddenGesture];
     }
     return self;
 }
 
-- (void)createViews {
+- (void)createPlayerView {
     
-    __weak typeof(self) weakSelf = self;
-    
+    //player
     [self addSubview:self.player];
     [self.player mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(self);
     }];
+    //放各种控制的view
+    self.controlBgView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self addSubview:self.controlBgView];
+    [self.controlBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.bottom.left.equalTo(self);
+    }];
+}
+
+- (void)defaultSetting {
+    self.playerControlStyle = PlayerControlStyleDefault;
+}
+
+- (void)setPlayerControlStyle:(PlayerControlStyle)playerControlStyle {
+    _playerControlStyle = playerControlStyle;
+    [self.controlBgView removeAllSubViews];
+    if (playerControlStyle == PlayerControlStyleDefault) {
+        
+        [self createDefaultViews];
+    }else if (playerControlStyle == PlayerControlStyleSimple) {
+        
+        [self createSimpleViews];
+    }
+}
+//创建默认UI
+- (void)createDefaultViews {
     
+    __weak typeof(self) weakSelf = self;
     //播放器播放时间监听回调
     [self playerTimeObserver];
     //播放状态监听回调
@@ -64,8 +102,21 @@
     //播放完成监听回调
     [self playerDidPlayToEndTime];
     
+    //上方的view
+    [self.controlBgView addSubview:self.topView];
+    [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.right.equalTo(self);
+        make.height.mas_equalTo(40);
+    }];
     
-    [self addSubview:self.bottomView];
+    self.topView.backButtonClickBlock = ^(UIButton *sender) {
+        if (weakSelf.backButtonClickBlock) {
+            weakSelf.backButtonClickBlock(sender);
+        }
+    };
+    
+    //下方的view
+    [self.controlBgView addSubview:self.bottomView];
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self);
         make.height.mas_equalTo(40);
@@ -90,6 +141,7 @@
         if (pan.state == UIGestureRecognizerStateBegan) {
             
             weakSelf.isPanPoint = YES;
+            [weakSelf cancleTimingMethod];
         }else if (pan.state == UIGestureRecognizerStateChanged) {
             
             CMTime duration = weakSelf.player.duration;
@@ -106,11 +158,34 @@
             [weakSelf.player seekToTime:time completionHandler:^(BOOL finished) {
                 
                 weakSelf.isPanPoint = NO;
+                [weakSelf addTimingMethod];
             }];
         }
     };
     
+    [self addTimingMethod];
+}
+//创建简单UI
+- (void)createSimpleViews {
     
+}
+
+//隐藏显示方法
+- (void)addHiddenGesture {
+    
+    self.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenTap:)];
+    [self addGestureRecognizer:tap];
+}
+
+- (void)hiddenTap:(UITapGestureRecognizer *)tap {
+    
+    if (self.topView.alpha == 1.0) {
+        [self hiddenControlView];
+    }else {
+        [self showControlView];
+        
+    }
 }
 
 ////播放时间监听回调
@@ -129,7 +204,11 @@
 //            NSLog(@"%f",(sec / durationSec));
             if (!weakSelf.isPanPoint) {
                 
-                [weakSelf.bottomView.sliderProgress setProgress:(sec / durationSec) animated:YES];
+                float currentProgress = sec / durationSec;
+                if (currentProgress > 0.01) {
+                    
+                    [weakSelf.bottomView.sliderProgress setProgress:currentProgress animated:YES];
+                }
             }
         }
         
@@ -205,6 +284,38 @@
     self.player.URL = URL;
 }
 
+- (void)addTimingMethod {
+    [self cancleTimingMethod];
+    [self performSelector:@selector(hiddenTiming) withObject:@"hidden" afterDelay:HiddenLimit];
+}
+
+- (void)cancleTimingMethod {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hiddenTiming) object:@"hidden"];
+}
+
+- (void)hiddenTiming {
+    NSLog(@"hidden");
+    [self hiddenControlView];
+}
+
+- (void)showControlView {
+    [self addTimingMethod];
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        self.topView.alpha = 1.0;
+        self.bottomView.alpha = 1.0;
+    }];
+}
+
+- (void)hiddenControlView {
+    [self cancleTimingMethod];
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        self.topView.alpha = 0.0;
+        self.bottomView.alpha = 0.0;
+    }];
+}
+
 - (JTPlayer *)player {
     if (!_player) {
         _player = [[JTPlayer alloc] init];
@@ -215,12 +326,18 @@
 - (JTPlayerBottomView *)bottomView {
     if (!_bottomView) {
         _bottomView = [[[NSBundle mainBundle] loadNibNamed:@"JTPlayerBottomView" owner:self options:nil] firstObject];
+        self.fullScreenButton = _bottomView.fullScreenButton;
     }
     return _bottomView;
 }
 
+- (JTPlayerTopView *)topView {
+    if (!_topView) {
+        _topView = [[[NSBundle mainBundle] loadNibNamed:@"JTPlayerTopView" owner:self options:nil] firstObject];
+    }
+    return _topView;
+}
 
-//传入 秒  得到 HH:MM:SS
 -(NSString *)getHHMMSSFromSS:(NSInteger)totalTime{
     
     NSInteger seconds = totalTime;
@@ -237,11 +354,6 @@
     NSString *str_second = [NSString stringWithFormat:@"%02ld",seconds%60];
     NSString *format_time = [NSString stringWithFormat:@"%@:%@",str_minute,str_second];
     return format_time;
-}
-
-- (void)dealloc {
-    
-    NSLog(@"playerViewDealloc");
 }
 
 @end

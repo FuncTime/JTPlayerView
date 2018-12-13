@@ -14,6 +14,13 @@
 		771A38C221C1ECF200C87239 /* JTPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 771A38BB21C1ECF200C87239 /* JTPlayerView.m */; };
 		771A38C321C1ECF200C87239 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 771A38BC21C1ECF200C87239 /* UIView+Extension.m */; };
 		771A38C421C1ECF200C87239 /* JTPlayerBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 771A38BD21C1ECF200C87239 /* JTPlayerBottomView.m */; };
+		771A38CE21C1F1C400C87239 /* fullScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 771A38CA21C1F1C300C87239 /* fullScreen.png */; };
+		771A38CF21C1F1C400C87239 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 771A38CB21C1F1C300C87239 /* pause.png */; };
+		771A38D021C1F1C400C87239 /* noFullScrreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 771A38CC21C1F1C400C87239 /* noFullScrreen.png */; };
+		771A38D121C1F1C400C87239 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 771A38CD21C1F1C400C87239 /* play.png */; };
+		771A38D421C1F2C800C87239 /* JTPlayerTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 771A38D321C1F2C800C87239 /* JTPlayerTopView.m */; };
+		771A38D621C1F2D200C87239 /* JTPlayerTopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 771A38D521C1F2D200C87239 /* JTPlayerTopView.xib */; };
+		771A38E521C20E8D00C87239 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 771A38E421C20E8D00C87239 /* back.png */; };
 		7766C0C121BF8CB2008A0416 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7766C0C021BF8CB2008A0416 /* AppDelegate.m */; };
 		7766C0C421BF8CB2008A0416 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7766C0C321BF8CB2008A0416 /* ViewController.m */; };
 		7766C0C721BF8CB2008A0416 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7766C0C521BF8CB2008A0416 /* Main.storyboard */; };
@@ -63,6 +70,14 @@
 		771A38BB21C1ECF200C87239 /* JTPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTPlayerView.m; sourceTree = "<group>"; };
 		771A38BC21C1ECF200C87239 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		771A38BD21C1ECF200C87239 /* JTPlayerBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTPlayerBottomView.m; sourceTree = "<group>"; };
+		771A38CA21C1F1C300C87239 /* fullScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullScreen.png; sourceTree = "<group>"; };
+		771A38CB21C1F1C300C87239 /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = "<group>"; };
+		771A38CC21C1F1C400C87239 /* noFullScrreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noFullScrreen.png; sourceTree = "<group>"; };
+		771A38CD21C1F1C400C87239 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
+		771A38D221C1F2C800C87239 /* JTPlayerTopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JTPlayerTopView.h; sourceTree = "<group>"; };
+		771A38D321C1F2C800C87239 /* JTPlayerTopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JTPlayerTopView.m; sourceTree = "<group>"; };
+		771A38D521C1F2D200C87239 /* JTPlayerTopView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JTPlayerTopView.xib; sourceTree = "<group>"; };
+		771A38E421C20E8D00C87239 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		7766C0BC21BF8CB2008A0416 /* JTPlayerView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTPlayerView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7766C0BF21BF8CB2008A0416 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7766C0C021BF8CB2008A0416 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -134,21 +149,61 @@
 		771A38B021C1ECF200C87239 /* JTPlayerView */ = {
 			isa = PBXGroup;
 			children = (
+				771A38DF21C208A600C87239 /* ControlView */,
+				771A38C521C1EFAB00C87239 /* ImagesForPlayer */,
 				771A38B421C1ECF200C87239 /* JTPlayerView.h */,
 				771A38BB21C1ECF200C87239 /* JTPlayerView.m */,
 				771A38B221C1ECF200C87239 /* JTPlayer.h */,
 				771A38B821C1ECF200C87239 /* JTPlayer.m */,
 				771A38BA21C1ECF200C87239 /* AVPlayerLayerView.h */,
 				771A38B621C1ECF200C87239 /* AVPlayerLayerView.m */,
-				771A38B721C1ECF200C87239 /* JTPlayerBottomView.h */,
-				771A38BD21C1ECF200C87239 /* JTPlayerBottomView.m */,
-				771A38B321C1ECF200C87239 /* JTPlayerBottomView.xib */,
-				771A38B921C1ECF200C87239 /* CustomSliderView.m */,
 				771A38B121C1ECF200C87239 /* CustomSliderView.h */,
+				771A38B921C1ECF200C87239 /* CustomSliderView.m */,
 				771A38B521C1ECF200C87239 /* UIView+Extension.h */,
 				771A38BC21C1ECF200C87239 /* UIView+Extension.m */,
 			);
 			path = JTPlayerView;
+			sourceTree = "<group>";
+		};
+		771A38C521C1EFAB00C87239 /* ImagesForPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				771A38E421C20E8D00C87239 /* back.png */,
+				771A38CA21C1F1C300C87239 /* fullScreen.png */,
+				771A38CC21C1F1C400C87239 /* noFullScrreen.png */,
+				771A38CB21C1F1C300C87239 /* pause.png */,
+				771A38CD21C1F1C400C87239 /* play.png */,
+			);
+			path = ImagesForPlayer;
+			sourceTree = "<group>";
+		};
+		771A38DF21C208A600C87239 /* ControlView */ = {
+			isa = PBXGroup;
+			children = (
+				771A38E121C208C700C87239 /* BottomControlView */,
+				771A38E021C208BB00C87239 /* TopControlView */,
+			);
+			path = ControlView;
+			sourceTree = "<group>";
+		};
+		771A38E021C208BB00C87239 /* TopControlView */ = {
+			isa = PBXGroup;
+			children = (
+				771A38D221C1F2C800C87239 /* JTPlayerTopView.h */,
+				771A38D321C1F2C800C87239 /* JTPlayerTopView.m */,
+				771A38D521C1F2D200C87239 /* JTPlayerTopView.xib */,
+			);
+			path = TopControlView;
+			sourceTree = "<group>";
+		};
+		771A38E121C208C700C87239 /* BottomControlView */ = {
+			isa = PBXGroup;
+			children = (
+				771A38B721C1ECF200C87239 /* JTPlayerBottomView.h */,
+				771A38BD21C1ECF200C87239 /* JTPlayerBottomView.m */,
+				771A38B321C1ECF200C87239 /* JTPlayerBottomView.xib */,
+			);
+			path = BottomControlView;
 			sourceTree = "<group>";
 		};
 		7766C0B321BF8CB2008A0416 = {
@@ -347,9 +402,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				7766C0CC21BF8CB3008A0416 /* LaunchScreen.storyboard in Resources */,
+				771A38D121C1F1C400C87239 /* play.png in Resources */,
 				7766C0C921BF8CB3008A0416 /* Assets.xcassets in Resources */,
+				771A38CF21C1F1C400C87239 /* pause.png in Resources */,
+				771A38D621C1F2D200C87239 /* JTPlayerTopView.xib in Resources */,
 				771A38BE21C1ECF200C87239 /* JTPlayerBottomView.xib in Resources */,
+				771A38CE21C1F1C400C87239 /* fullScreen.png in Resources */,
+				771A38D021C1F1C400C87239 /* noFullScrreen.png in Resources */,
 				7766C0C721BF8CB2008A0416 /* Main.storyboard in Resources */,
+				771A38E521C20E8D00C87239 /* back.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +494,7 @@
 			files = (
 				771A38C321C1ECF200C87239 /* UIView+Extension.m in Sources */,
 				7766C0C421BF8CB2008A0416 /* ViewController.m in Sources */,
+				771A38D421C1F2C800C87239 /* JTPlayerTopView.m in Sources */,
 				7766C0CF21BF8CB3008A0416 /* main.m in Sources */,
 				771A38BF21C1ECF200C87239 /* AVPlayerLayerView.m in Sources */,
 				7766C0C121BF8CB2008A0416 /* AppDelegate.m in Sources */,
@@ -611,6 +673,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 363XS2936U;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/JTPlayerView/Configuration/PrefixHeader.pch";
 				INFOPLIST_FILE = JTPlayerView/Info.plist;
@@ -635,6 +698,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 363XS2936U;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/JTPlayerView/Configuration/PrefixHeader.pch";
 				INFOPLIST_FILE = JTPlayerView/Info.plist;

@@ -145,4 +145,10 @@
     return  nil;
 }
 
+- (void)removeAllSubViews {
+    while (self.subviews.count) {
+        [self.subviews.lastObject removeFromSuperview];
+    }
+}
+
 @end

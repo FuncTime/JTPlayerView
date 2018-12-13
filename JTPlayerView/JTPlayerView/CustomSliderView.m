@@ -29,7 +29,7 @@
     self.sliderProgress = [[UIProgressView alloc] initWithFrame:CGRectZero];
     self.sliderProgress.progressTintColor = [UIColor redColor];
     self.sliderProgress.trackTintColor = [UIColor clearColor];
-    [self.sliderProgress setProgress:0.0];
+    [self.sliderProgress setProgress:0.01 animated:YES];
     [self addSubview:self.sliderProgress];
     [self.sliderProgress mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self);

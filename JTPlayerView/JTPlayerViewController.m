@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) JTPlayerView *player;
 
+@property (nonatomic, assign) BOOL hiddenStatusBar;
+
 @end
 
 @implementation JTPlayerViewController
@@ -22,7 +24,11 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     
-    //    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    self.hiddenStatusBar = YES;
+    
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
+    [self setNeedsStatusBarAppearanceUpdate];
     
     __weak typeof(self) weakSelf = self;
     
@@ -31,7 +37,7 @@
     [self.view addSubview:self.player];
     [self.player mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
-        make.top.equalTo(self.view).offset(64);
+        make.top.equalTo(self.view);
         make.height.mas_equalTo(self.view.mas_width).multipliedBy(9.0/16.0);
     }];
     
@@ -42,6 +48,16 @@
         }else {
             
             [weakSelf interfaceOrientation:UIInterfaceOrientationPortrait];
+        }
+    };
+    
+    self.player.backButtonClickBlock = ^(UIButton *sender) {
+        
+        if ([UIDevice currentDevice].orientation != UIInterfaceOrientationPortrait) {
+            [weakSelf interfaceOrientation:UIInterfaceOrientationPortrait];
+            weakSelf.player.fullScreenButton.selected = NO;
+        }else {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
         }
     };
 }
@@ -59,6 +75,15 @@
         [invocation setArgument:&val atIndex:2];
         [invocation invoke];
     }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
+- (BOOL)prefersStatusBarHidden{
+    return self.hiddenStatusBar;
 }
 
 - (void)dealloc {
