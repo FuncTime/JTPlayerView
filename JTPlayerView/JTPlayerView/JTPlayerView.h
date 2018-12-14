@@ -15,23 +15,29 @@ typedef enum : NSUInteger {
 
 @interface JTPlayerView : UIView
 
+//****  切换竖屏时的回调,在这里设置竖屏的约束  ****//
+@property (nonatomic, copy) void(^orientationPortraitBlock)(JTPlayerView *playerView);
+
 //返回按钮点击回调
 @property (nonatomic, copy) void(^backButtonClickBlock)(UIButton *sender);
 
-//全屏按钮点击回调
-@property (nonatomic, copy) void(^fullScreenButtonClickBlock)(UIButton *sender);
 //播放完成监听回调
 @property (nonatomic, copy) void(^playerDidPlayToEndTimeBlock)(NSNotification *notification);
-
+//点击显示隐藏方法
+@property (nonatomic, copy) void(^hiddenTapBlock)(BOOL isShowControlView);
+//自动显示隐藏方法
+@property (nonatomic, copy) void(^autoHiddenBlock)(BOOL isShowControlView);
+//播放器UI类型
 @property (nonatomic, assign) PlayerControlStyle playerControlStyle;
-
-@property (nonatomic, strong) UIButton *fullScreenButton;
-
+//视频链接
 @property (nonatomic, strong) NSURL *URL;
-
+//初始化方法
 + (instancetype)playerWithURL:(NSURL *)URL;
-
+//初始化方法
 - (instancetype)initWithPlayerURL:(NSURL *)URL;
-
+//跳到结束位置
+- (void)forwardPlaybackEndTime;
+//跳到开始位置
+- (void)reversePlaybackEndTime;
 
 @end

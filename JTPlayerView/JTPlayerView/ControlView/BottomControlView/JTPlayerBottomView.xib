@@ -40,9 +40,6 @@
                 </label>
                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j8X-et-0L2">
                     <rect key="frame" x="90" y="32.5" width="302" height="2"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="2" id="Jp0-tM-UvU"/>
-                    </constraints>
                     <color key="progressTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </progressView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="233-Qk-8pq">
@@ -62,7 +59,7 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <state key="normal" image="fullScreen.png"/>
-                    <state key="selected" title="小屏" image="noFullScrreen.png"/>
+                    <state key="selected" image="noFullScrreen.png"/>
                     <connections>
                         <action selector="fullScreenButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="8bn-rO-PVJ"/>
                     </connections>
@@ -87,7 +84,7 @@
             <connections>
                 <outlet property="currentTimeLabel" destination="k1F-L8-VRp" id="eNB-bG-sxc"/>
                 <outlet property="durationLabel" destination="233-Qk-8pq" id="cYG-Fs-H8k"/>
-                <outlet property="fullScreenButton" destination="2iI-s9-NKJ" id="W7i-GJ-ltv"/>
+                <outlet property="fullScreenButton" destination="2iI-s9-NKJ" id="ZL3-hI-VID"/>
                 <outlet property="playButton" destination="NzT-CY-eEi" id="eWJ-3e-xpj"/>
                 <outlet property="progressView" destination="j8X-et-0L2" id="G1X-vb-GFy"/>
             </connections>

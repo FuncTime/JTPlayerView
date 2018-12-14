@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CenterControlSimpleView">
+            <rect key="frame" x="0.0" y="0.0" width="226" height="167"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S65-4e-9My">
+                    <rect key="frame" x="0.0" y="0.0" width="226" height="167"/>
+                    <state key="normal" image="play.png"/>
+                    <state key="selected" image="pause.png"/>
+                    <connections>
+                        <action selector="playButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="X6Q-jX-Hgp"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="S65-4e-9My" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="6dX-Fg-lse"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="S65-4e-9My" secondAttribute="trailing" id="7bj-SM-UJo"/>
+                <constraint firstItem="S65-4e-9My" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="Lv0-68-UPZ"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="S65-4e-9My" secondAttribute="bottom" id="j7i-fB-IVY"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="playButton" destination="S65-4e-9My" id="cBK-0H-38x"/>
+            </connections>
+            <point key="canvasLocation" x="108" y="-179.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="pause.png" width="64" height="64"/>
+        <image name="play.png" width="64" height="64"/>
+    </resources>
+</document>

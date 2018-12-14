@@ -38,13 +38,11 @@
 }
 
 - (IBAction)playButtonClick:(UIButton *)sender {
-    sender.selected = !sender.selected;
     if (self.playButtonClickBlock) {
         self.playButtonClickBlock(sender);
     }
 }
 - (IBAction)fullScreenButtonClick:(UIButton *)sender {
-    sender.selected = !sender.selected;
     if (self.fullScreenButtonClickBlock) {
         self.fullScreenButtonClickBlock(sender);
     }

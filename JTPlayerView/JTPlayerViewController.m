@@ -8,12 +8,16 @@
 
 #import "JTPlayerViewController.h"
 #import "JTPlayerView.h"
+#import "UIView+Extension.h"
+#import "UIViewController+Category.h"
 
 @interface JTPlayerViewController ()
 
 @property (nonatomic, strong) JTPlayerView *player;
 
 @property (nonatomic, assign) BOOL hiddenStatusBar;
+
+@property (nonatomic, assign) NSInteger statusBarHeight;
 
 @end
 
@@ -24,57 +28,61 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.hiddenStatusBar = YES;
-    
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
-    [self setNeedsStatusBarAppearanceUpdate];
     
     __weak typeof(self) weakSelf = self;
     
+    UIView *statusBarView = [[UIView alloc] initWithFrame:CGRectZero];
+    statusBarView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:statusBarView];
+    
+    for (UIView *view in self.navigationController.navigationBar.subviews) {
+        
+        if ([NSStringFromClass([view class]) isEqualToString:@"_UIBarBackground"]) {
+//            NSLog(@"%@",view);
+            self.statusBarHeight = view.height - [self getNavigationBarHeght];
+            [statusBarView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.equalTo(self.view);
+                make.height.mas_equalTo(self.statusBarHeight);
+            }];
+        }
+    }
+    
+    [self.view sendSubviewToBack:statusBarView];
+    
     self.player = [JTPlayerView playerWithURL:[NSURL URLWithString:@"http://wvideo.spriteapp.cn/video/2016/0328/56f8ec01d9bfe_wpd.mp4"]];
     self.player.backgroundColor = [UIColor blackColor];
+//    self.player.playerControlStyle = PlayerControlStyleSimple;
     [self.view addSubview:self.player];
-    [self.player mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.top.equalTo(self.view);
-        make.height.mas_equalTo(self.view.mas_width).multipliedBy(9.0/16.0);
-    }];
     
-    self.player.fullScreenButtonClickBlock = ^(UIButton *sender) {
-        if ([UIDevice currentDevice].orientation == UIInterfaceOrientationPortrait) {
-            
-            [weakSelf interfaceOrientation:UIInterfaceOrientationLandscapeRight];
-        }else {
-            
-            [weakSelf interfaceOrientation:UIInterfaceOrientationPortrait];
-        }
+    self.player.orientationPortraitBlock = ^(JTPlayerView *playerView) {
+        [playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(weakSelf.statusBarHeight > 20 ? weakSelf.statusBarHeight - 20 : 0);
+            make.left.equalTo(@(0));
+            make.width.equalTo(@(SCREEN_WIDTH));
+            make.height.equalTo(weakSelf.view.mas_width).multipliedBy(9.0/16.0);
+        }];
     };
     
     self.player.backButtonClickBlock = ^(UIButton *sender) {
         
-        if ([UIDevice currentDevice].orientation != UIInterfaceOrientationPortrait) {
-            [weakSelf interfaceOrientation:UIInterfaceOrientationPortrait];
-            weakSelf.player.fullScreenButton.selected = NO;
-        }else {
+        if ([UIDevice currentDevice].orientation == UIInterfaceOrientationPortrait) {
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }
     };
-}
-
-// 强制转屏
-- (void)interfaceOrientation:(UIInterfaceOrientation)orientation
-{
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-        SEL selector  = NSSelectorFromString(@"setOrientation:");
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-        [invocation setSelector:selector];
-        [invocation setTarget:[UIDevice currentDevice]];
-        int val = orientation;
-        // 从2开始是因为0 1 两个参数已经被selector和target占用
-        [invocation setArgument:&val atIndex:2];
-        [invocation invoke];
-    }
+    
+    self.player.hiddenTapBlock = ^(BOOL isShowControlView) {
+        weakSelf.hiddenStatusBar = !isShowControlView;
+        [UIView animateWithDuration:0.3 animations:^{
+            [weakSelf setNeedsStatusBarAppearanceUpdate];
+        }];
+    };
+    self.player.autoHiddenBlock = ^(BOOL isShowControlView) {
+        weakSelf.hiddenStatusBar = !isShowControlView;
+        [UIView animateWithDuration:0.3 animations:^{
+            [weakSelf setNeedsStatusBarAppearanceUpdate];
+        }];
+    };
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -84,6 +92,14 @@
 
 - (BOOL)prefersStatusBarHidden{
     return self.hiddenStatusBar;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+- (UIStatusBarAnimation )preferredStatusBarUpdateAnimation {
+    return UIStatusBarAnimationFade;
 }
 
 - (void)dealloc {

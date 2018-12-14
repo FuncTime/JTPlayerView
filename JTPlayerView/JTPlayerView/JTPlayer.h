@@ -23,6 +23,8 @@
 //本次缓冲范围监听回调
 @property (nonatomic, copy) void(^playerLoadedTimeRangesObserverBlock)(NSArray *array);
 
+@property (nonatomic, strong) AVPlayer *player;//播放器
+
 @property (nonatomic, strong) NSURL *URL;
 
 @property (nonatomic, assign) CMTime duration;

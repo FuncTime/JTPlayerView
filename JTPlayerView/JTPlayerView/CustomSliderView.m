@@ -40,14 +40,14 @@
     UIImageView *progressImageView = self.sliderProgress.subviews.lastObject;
     
     UIView *point = [[UIView alloc] initWithFrame:CGRectZero];
-    point.layer.cornerRadius = 10;
+    point.layer.cornerRadius = 7.5;
     point.layer.masksToBounds = YES;
     point.backgroundColor = [UIColor whiteColor];
     [self addSubview:point];
     [point mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.sliderProgress);
         make.centerX.equalTo(progressImageView.mas_right);
-        make.width.height.mas_equalTo(20);
+        make.width.height.mas_equalTo(15);
     }];
     
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pointPan:)];

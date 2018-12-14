@@ -11,7 +11,6 @@
 
 @interface JTPlayer ()
 
-@property (nonatomic, strong) AVPlayer *player;//播放器
 @property (nonatomic, strong) AVPlayerItem *item;//播放单元
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;//播放界面
 @property (nonatomic, strong) AVPlayerLayerView *videoLayer;
@@ -160,7 +159,7 @@
 }
 
 - (void)dealloc {
-    NSLog(@"playerDealloc");
+    NSLog(@"JTPlayer---dealloc");
     [self removeObserver];
 }
 
