@@ -177,10 +177,10 @@
 				771A38B621C1ECF200C87239 /* AVPlayerLayerView.m */,
 				771A38B121C1ECF200C87239 /* CustomSliderView.h */,
 				771A38B921C1ECF200C87239 /* CustomSliderView.m */,
-				771A38B521C1ECF200C87239 /* UIView+Extension.h */,
-				771A38BC21C1ECF200C87239 /* UIView+Extension.m */,
 				771A38FB21C2628100C87239 /* RotationScreen.h */,
 				771A38FC21C2628100C87239 /* RotationScreen.m */,
+				771A38B521C1ECF200C87239 /* UIView+Extension.h */,
+				771A38BC21C1ECF200C87239 /* UIView+Extension.m */,
 				771A38FE21C3474600C87239 /* UIViewController+Category.h */,
 				771A38FF21C3474600C87239 /* UIViewController+Category.m */,
 			);

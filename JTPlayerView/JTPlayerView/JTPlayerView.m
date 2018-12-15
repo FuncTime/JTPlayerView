@@ -491,7 +491,7 @@
 
 - (JTPlayerBottomView *)bottomView {
     if (!_bottomView) {
-        _bottomView = [[[NSBundle mainBundle] loadNibNamed:@"JTPlayerBottomView" owner:self options:nil] firstObject];
+        _bottomView = [JTPlayerBottomView viewFromXib];
         self.fullScreenButton = _bottomView.fullScreenButton;
         self.playButton = _bottomView.playButton;
         self.currentPlayProgress = _bottomView.sliderProgress;
@@ -502,7 +502,7 @@
 
 - (JTPlayerBottomSimpleView *)bottomSimpleView {
     if (!_bottomSimpleView) {
-        _bottomSimpleView = [[[NSBundle mainBundle] loadNibNamed:@"JTPlayerBottomSimpleView" owner:self options:nil] firstObject];
+        _bottomSimpleView = [JTPlayerBottomSimpleView viewFromXib];
         self.fullScreenButton = _bottomSimpleView.fullScreenButton;
         self.currentPlayProgress = _bottomSimpleView.currentPlayProgress;
         self.bufferProgressView = _bottomSimpleView.progressView;
@@ -512,14 +512,14 @@
 
 - (JTPlayerTopView *)topView {
     if (!_topView) {
-        _topView = [[[NSBundle mainBundle] loadNibNamed:@"JTPlayerTopView" owner:self options:nil] firstObject];
+        _topView = [JTPlayerTopView viewFromXib];
     }
     return _topView;
 }
 
 - (CenterControlSimpleView *)centerSimpleView {
     if (!_centerSimpleView) {
-        _centerSimpleView = [[[NSBundle mainBundle] loadNibNamed:@"CenterControlSimpleView" owner:self options:nil] firstObject];
+        _centerSimpleView = [CenterControlSimpleView viewFromXib];
         self.playButton = _centerSimpleView.playButton;
     }
     return _centerSimpleView;

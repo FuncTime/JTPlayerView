@@ -138,7 +138,7 @@
 + (instancetype)viewFromXib
 {
     NSString *className = NSStringFromClass([self class]);
-    id object = [[[NSBundle mainBundle]loadNibNamed:className owner:nil options:nil]lastObject];
+    id object = [[[NSBundle mainBundle]loadNibNamed:className owner:nil options:nil] firstObject];
     if ([object isKindOfClass:[self class]]) {
         return object;
     }
