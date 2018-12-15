@@ -88,7 +88,7 @@
                 <outlet property="playButton" destination="NzT-CY-eEi" id="eWJ-3e-xpj"/>
                 <outlet property="progressView" destination="j8X-et-0L2" id="G1X-vb-GFy"/>
             </connections>
-            <point key="canvasLocation" x="87" y="-230"/>
+            <point key="canvasLocation" x="-72" y="-223"/>
         </view>
     </objects>
     <resources>

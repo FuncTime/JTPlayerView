@@ -41,9 +41,6 @@
 @property (nonatomic, strong) UIButton *fullScreenButton;
 @end
 
-//自动隐藏时间
-#define HiddenLimit 5.0
-
 @implementation JTPlayerView
 
 + (instancetype)playerWithURL:(NSURL *)URL {
@@ -57,6 +54,7 @@
         [self createPlayerView];
         [self defaultSetting];
         [self addHiddenGesture];
+        [self addNotification];
         self.URL = URL;
     }
     return self;
@@ -69,6 +67,7 @@
         [self createPlayerView];
         [self defaultSetting];
         [self addHiddenGesture];
+        [self addNotification];
     }
     return self;
 }
@@ -83,8 +82,9 @@
     //放各种控制的view
     self.controlBgView = [[UIView alloc] initWithFrame:CGRectZero];
     [self addSubview:self.controlBgView];
+    
     [self.controlBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.bottom.left.equalTo(self);
+        make.left.right.top.bottom.equalTo(self).priorityHigh();
     }];
     
     //播放器播放时间监听回调
@@ -95,6 +95,8 @@
     [self playerLoadedTimeRangesObserver];
     //播放完成监听回调
     [self playerDidPlayToEndTime];
+    //添加远程控制回调
+    [self remoteEvent];
 }
 
 - (void)defaultSetting {
@@ -120,8 +122,7 @@
     //上方的view
     [self.controlBgView addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.controlBgView);
-        make.left.right.equalTo(self.controlBgView);
+        make.left.top.right.equalTo(self.controlBgView);
         make.height.mas_equalTo(64);
     }];
     
@@ -135,8 +136,13 @@
     //下方的view
     [self.controlBgView addSubview:self.bottomView];
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.equalTo(self.controlBgView);
+        make.left.right.equalTo(self.controlBgView);
         make.height.mas_equalTo(44);
+        if (@available(iOS 11.0, *)) {
+            make.bottom.equalTo(self.controlBgView.mas_safeAreaLayoutGuideBottom);
+        } else {
+            make.bottom.equalTo(self.controlBgView);
+        }
     }];
     
     self.bottomView.playButtonClickBlock = ^(UIButton *sender) {
@@ -166,8 +172,7 @@
             
         }else if (pan.state == UIGestureRecognizerStateEnded) {
             
-            CMTime duration = weakSelf.AVPlayerView.duration;
-            NSInteger durationSec = duration.value / duration.timescale;
+            NSInteger durationSec = CMTimeGetSeconds(weakSelf.AVPlayerView.duration);
             NSInteger sec = weakSelf.bottomView.sliderProgress.progress * durationSec;
             CMTime time = CMTimeMake(sec, 1);
             [weakSelf.AVPlayerView seekToTime:time completionHandler:^(BOOL finished) {
@@ -175,6 +180,7 @@
                 weakSelf.isPanPoint = NO;
                 [weakSelf addTimingMethod];
             }];
+            
         }
     };
     
@@ -261,6 +267,37 @@
     }
 }
 
+- (void)addNotification {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+               selector:@selector(appDidEnterBackgroundNotification)
+                   name:UIApplicationDidEnterBackgroundNotification
+                 object:nil];
+    [center addObserver:self
+               selector:@selector(appWillEnterForegroundNotification)
+                   name:UIApplicationWillEnterForegroundNotification
+                 object:nil];
+}
+- (void)removeNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+- (void)appDidEnterBackgroundNotification {
+    
+    if (self.playInTheBackground) {
+        self.AVPlayerView.playerLayer.player = nil;
+    }else {
+        [self pause];
+    }
+}
+- (void)appWillEnterForegroundNotification {
+    
+    if (self.playInTheBackground) {
+        self.AVPlayerView.playerLayer.player = self.AVPlayerView.player;
+    }else {
+        [self play];
+    }
+}
+
 ////播放时间监听回调
 - (void)playerTimeObserver {
     
@@ -295,8 +332,7 @@
                 NSLog(@"准备播放");
                 // 开始播放
                 [weakSelf play];
-                CMTime duration = weakSelf.AVPlayerView.duration;
-                NSInteger durationSec = duration.value / duration.timescale;
+                NSInteger durationSec = CMTimeGetSeconds(weakSelf.AVPlayerView.duration);
                 weakSelf.bottomView.durationLabel.text = [weakSelf getMMSSFromSS:durationSec];
             }
                 break;
@@ -329,8 +365,7 @@
         
         if (weakSelf.AVPlayerView.duration.value) {
             
-            CMTime duration = weakSelf.AVPlayerView.duration;
-            NSInteger durationSec = duration.value / duration.timescale;
+            NSInteger durationSec = CMTimeGetSeconds(weakSelf.AVPlayerView.duration);
             [weakSelf.bufferProgressView setProgress:(totalBuffer/durationSec) animated:YES];
         }
     };
@@ -345,6 +380,17 @@
         if (weakSelf.playerDidPlayToEndTimeBlock) {
             weakSelf.playerDidPlayToEndTimeBlock(notification);
         }
+    };
+}
+//添加远程控制回调
+- (void)remoteEvent {
+    
+    __weak typeof(self) weakSelf = self;
+    self.AVPlayerView.remotePlayEventBlock = ^{
+        [weakSelf play];
+    };
+    self.AVPlayerView.remotePauseEventBlock = ^{
+        [weakSelf pause];
     };
 }
 
@@ -479,7 +525,17 @@
     return _centerSimpleView;
 }
 
--(NSString *)getHHMMSSFromSS:(NSInteger)totalTime{
+- (void)setPlayInTheBackground:(BOOL)playInTheBackground {
+    _playInTheBackground = playInTheBackground;
+    self.AVPlayerView.playInTheBackground = playInTheBackground;
+}
+
+- (void)setTitle:(NSString *)title {
+    _title = title;
+    self.AVPlayerView.title = title;
+}
+
+- (NSString *)getHHMMSSFromSS:(NSInteger)totalTime {
     
     NSInteger seconds = totalTime;
     NSString *str_hour = [NSString stringWithFormat:@"%02ld",seconds/3600];
@@ -488,7 +544,7 @@
     NSString *format_time = [NSString stringWithFormat:@"%@:%@:%@",str_hour,str_minute,str_second];
     return format_time;
 }
--(NSString *)getMMSSFromSS:(NSInteger)totalTime{
+- (NSString *)getMMSSFromSS:(NSInteger)totalTime {
     
     NSInteger seconds = totalTime;
     NSString *str_minute = [NSString stringWithFormat:@"%02ld",seconds/60];
@@ -499,6 +555,7 @@
 
 - (void)dealloc {
     NSLog(@"JTPlayerView---dealloc");
+    [self removeNotification];
 }
 
 @end

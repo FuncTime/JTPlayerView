@@ -17,8 +17,6 @@
 
 @property (nonatomic, assign) BOOL hiddenStatusBar;
 
-@property (nonatomic, assign) NSInteger statusBarHeight;
-
 @end
 
 @implementation JTPlayerViewController
@@ -35,29 +33,22 @@
     UIView *statusBarView = [[UIView alloc] initWithFrame:CGRectZero];
     statusBarView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:statusBarView];
-    
-    for (UIView *view in self.navigationController.navigationBar.subviews) {
-        
-        if ([NSStringFromClass([view class]) isEqualToString:@"_UIBarBackground"]) {
-//            NSLog(@"%@",view);
-            self.statusBarHeight = view.height - [self getNavigationBarHeght];
-            [statusBarView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.top.equalTo(self.view);
-                make.height.mas_equalTo(self.statusBarHeight);
-            }];
-        }
-    }
-    
+    [statusBarView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.equalTo(self.view);
+        make.height.mas_equalTo([self getStatusBarHeight]);
+    }];
     [self.view sendSubviewToBack:statusBarView];
     
     self.player = [JTPlayerView playerWithURL:[NSURL URLWithString:@"http://wvideo.spriteapp.cn/video/2016/0328/56f8ec01d9bfe_wpd.mp4"]];
     self.player.backgroundColor = [UIColor blackColor];
 //    self.player.playerControlStyle = PlayerControlStyleSimple;
+    self.player.playInTheBackground = YES;
+//    self.player.title = @"哈哈哈哈哈";
     [self.view addSubview:self.player];
     
     self.player.orientationPortraitBlock = ^(JTPlayerView *playerView) {
         [playerView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(weakSelf.statusBarHeight > 20 ? weakSelf.statusBarHeight - 20 : 0);
+            make.top.mas_equalTo([weakSelf getStatusBarHeight] > 20 ? [weakSelf getStatusBarHeight] - 20 : 0);
             make.left.equalTo(@(0));
             make.width.equalTo(@(SCREEN_WIDTH));
             make.height.equalTo(weakSelf.view.mas_width).multipliedBy(9.0/16.0);

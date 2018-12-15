@@ -13,6 +13,9 @@ typedef enum : NSUInteger {
     PlayerControlStyleSimple,
 } PlayerControlStyle;
 
+//自动隐藏时间
+#define HiddenLimit 5.0
+
 @interface JTPlayerView : UIView
 
 //****  切换竖屏时的回调,在这里设置竖屏的约束  ****//
@@ -31,6 +34,11 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) PlayerControlStyle playerControlStyle;
 //视频链接
 @property (nonatomic, strong) NSURL *URL;
+//是否后台播放 默认NO
+@property (nonatomic, assign) BOOL playInTheBackground;
+
+@property (nonatomic, copy) NSString *title;
+
 //初始化方法
 + (instancetype)playerWithURL:(NSURL *)URL;
 //初始化方法
@@ -40,4 +48,6 @@ typedef enum : NSUInteger {
 //跳到开始位置
 - (void)reversePlaybackEndTime;
 
+//在ViewWillDisappear调用 可以立即释放,否则等待 < HiddenLimit 秒后释放
+- (void)cancleTimingMethod;
 @end

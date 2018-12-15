@@ -10,6 +10,10 @@
 
 @interface UIViewController (Category)
 
+- (NSInteger)getNavigationBarAndStatusBarHeight;
+
 - (NSInteger)getNavigationBarHeght;
+
+- (NSInteger)getStatusBarHeight;
 
 @end
