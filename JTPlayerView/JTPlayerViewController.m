@@ -10,6 +10,7 @@
 #import "JTPlayerView.h"
 #import "UIView+Extension.h"
 #import "UIViewController+Category.h"
+#import "AppDelegate.h"
 
 @interface JTPlayerViewController ()
 
@@ -24,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self.navigationController setNavigationBarHidden:YES animated:YES];
@@ -76,9 +78,17 @@
     };
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.allowRotation = YES;
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.allowRotation = NO;
 }
 
 - (BOOL)prefersStatusBarHidden{
